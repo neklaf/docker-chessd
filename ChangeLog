@@ -1,0 +1,184 @@
+2007-02-02  Toby Thain <qu1j0t3 at users.sourceforge.net>
+    * 0.3 release
+      - switch to libdbi for database access
+      - support for MySQL in schema, db install script, and queries
+      - add basic web account registration form (PHP)
+      - various bugfixes & formatting cleanups
+      - make buildable on Solaris 10
+
+2006-04-19  Leonardo Boiko  <leoboiko@gmail.com>
+
+	* 0.2 release: fixed code errors and warnings, better buildsystem,
+	  	non-autoconf config.h renamed to configure.h, better use of
+		chessd.conf, working database creation scheme.
+
+2004-10-13 arthur
+
+	* Version Chrysallis-0.1
+	* New webinterface
+	* Many bugfixes
+
+2004-06-04  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Remove intl.
+
+2004-06-04  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Remove intl.
+
+2004-04-30  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add intl.
+	* configure.ac (AC_CONFIG_FILES): Add intl/Makefile.
+
+2004-04-29  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add intl.
+	* configure.ac (AC_CONFIG_FILES): Add intl/Makefile.
+
+2004-04-29  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (EXTRA_DIST): Add config.rpath.
+
+2003-11-12 11:32  samuelm
+	* Version joao_vi-0.91
+	* New seek / unseek / sought / play, copied from ICS
+	* Implemented atsreload to reload the timeseal decoder
+	* Many bugfixes
+
+2003-09-30 20:17  leoboiko
+        * Almost every file:
+        Preparing for our first tarball release, Joao VI 0.9!
+          * Finally removed i18n from all strings parsed by {X,Win}board.
+            Added facilities to help with this task.
+          * Polished copyright information.
+
+2003-09-29 16:29  leoboiko
+
+	* Makefile.in, aclocal.m4, configure, data/Makefile.in,
+	data/admin/Makefile.in, data/admin/C/Makefile.in,
+	data/book/Makefile.in, data/help/Makefile.in,
+	data/help/C/Makefile.in, data/stats/Makefile.in,
+	data/usage/Makefile.in, data/usage/C/Makefile.in, m4/Makefile.in,
+	po/Makefile.in, po/pt_BR.po, scripts/Makefile.in, src/Makefile.in,
+	src/chessd_addplayer.c, src/config.h, src/utils.c: Added working
+	mail for chessd_addplayer (copied from fics)
+
+2003-09-05 04:00  leoboiko
+
+	* data/admin/C/Makefile.am (1.2), data/admin/C/Makefile.in (1.2),
+	data/book/Makefile.am (1.2), data/book/Makefile.in (1.2),
+	data/help/C/Makefile.am (1.2), data/help/C/Makefile.in (1.2),
+	data/stats/Makefile.am (1.2), data/stats/Makefile.in (1.2),
+	data/usage/C/Makefile.am (1.2), data/usage/C/Makefile.in (1.2),
+	po/Makefile.in (1.3), po/chessd.pot (1.3), po/pt_BR.gmo (1.4),
+	po/pt_BR.po (1.7), src/Makefile.am (1.7), src/Makefile.in (1.7),
+	src/chessd_main.c (1.2): minor corrections to fix 'make dist'
+
+2003-09-05 03:37  leoboiko
+
+	* src/chessd_main.h (1.2): old name
+
+2003-09-05 03:34  leoboiko
+
+	* src/ficsmain.h (1.2): old file
+
+2003-09-05 02:45  leoboiko
+
+	* Almost every file:
+	* Structural change; mkproto.awk kludge cast to void
+	* New multi-locale help/ahelp/usage system
+
+2003-08-24 17:56  leoboiko
+
+	* TODO (1.5): Addplayer is fixed.
+
+2003-08-24 17:38  debona
+
+	* src/command.c (1.6): fix alias substitutions in move commands
+
+2003-08-24 17:37  debona
+
+	* src/network.c (1.2): sanity check for fd < 0 in function
+	findConnection
+
+2003-08-07 14:13  leoboiko
+
+	* po/POTFILES.in (1.3), src/Makefile.am (1.5), src/Makefile.in
+	(1.5), src/chessd_addplayer.c (1.1), src/fics_addplayer.c (1.3):
+	fixed fics_addplayer and changed it to chessd_addplayer
+
+2003-08-06 15:40  leoboiko
+
+	* po/pt_BR.po (1.5): some new trans
+
+2003-08-04 18:31  leoboiko
+
+	* src/: Makefile.am (1.4), proto.h (1.3): cleaning
+
+2003-08-04 18:31  leoboiko
+
+	* src/variable.c (1.3): bugfix
+
+2003-08-02 19:17  leoboiko
+
+	* src/config_genstrc.c (1.2): fixed max_players
+
+2003-08-02 19:16  leoboiko
+
+	* src/playerdb.c (1.4): fixed free bug
+
+2003-08-02 16:00  leoboiko
+
+	* src/: command.c (1.3), config.h (1.3), config_genstrc.h (1.2),
+	playerdb.c (1.3): solved "max_players" brain damage; using now
+	max_players_unreg
+
+2003-07-31 21:36  leoboiko
+
+	* Makefile.in (1.3), configure (1.3), configure.ac (1.3),
+	bots/lecturebot/lecbot.pl (1.2), bots/mamer/bin/mamer.config (1.2),
+	po/pt_BR.po (1.2), tests/setup.exp (1.2), tests/test1.exp (1.2):
+	changed all occurences of "lasker"
+
+2003-07-31 21:32  leoboiko
+
+	* src/: config_genstrc.c (1.1), config_genstrc.c~ (1.1),
+	config_genstrc.h (1.1), config_genstrc.h~ (1.1),
+	config_genstrc_pinfo.h (1.1): New config system using genstruct
+
+2003-07-31 21:24  leoboiko
+
+	* doc/CREDITS (1.2), doc/Changelog (1.2), olddocs/CREDITS (1.1),
+	olddocs/Changelog (1.1), olddocs/README_LEGAL (1.1),
+	olddocs/README_Nash (1.1): moved files from doc/ to olddocs/
+
+2003-07-31 15:18  leoboiko
+
+	* src/: Makefile.am (1.3), Makefile.in (1.3), command.c (1.2),
+	comproc.c (1.2), config.c (1.2), config.h (1.2), gamedb.c (1.2),
+	genparser.h (1.2), includes.h (1.2), lists.c (1.2), playerdb.c
+	(1.2), playerdb_old.c (1.2), proto.h (1.2), reload.c (1.2),
+	seekproc.c (1.2), variable.c (1.2): New config system using
+	genstruct
+
+2003-07-25 23:02  leoboiko
+
+	* src/ficsmain.c (1.3): Changed a void to lt_ptr
+
+2003-07-25 21:58  leoboiko
+
+	* src/: Makefile.am (1.2), Makefile.in (1.2): General cleaning
+
+2003-07-25 21:54  leoboiko
+
+	* Makefile.in (1.2), configure (1.2), configure.ac (1.2),
+	data/Makefile.in (1.2), m4/Makefile.in (1.2), scripts/Makefile.in
+	(1.2): Removed old and empty variable CHESSD_FLAGS
+
+2003-06-27  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add intl,
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): New variable.
+	* configure.ac (AC_CONFIG_FILES): Add intl/Makefile,

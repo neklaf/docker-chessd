@@ -1,0 +1,88 @@
+About chessd
+------------
+Chessd is a server for multiplayer online chess play.  It communicates
+in a protocol similar to the common Internet Chess Server (ICS) de facto
+standard and can be used with popular client interfaces such as
+Xboard on UNIX/Linux and Winboard on Windows.
+
+Chessd is an adaptation of old projects for a modern environment, and
+features RDBMS storage and a web interface.
+
+Project page: http://sourceforge.net/projects/chessd
+Bug tracker:  http://sourceforge.net/tracker/?group_id=86389&atid=579210
+Mailing list: http://sourceforge.net/mailarchive/forum.php?forum_id=35241
+
+Installation
+------------
+See file INSTALL for installation instructions.
+See QUICKSTART once you have the server built and running.
+
+Using chessd with non-Linux systems
+-----------------------------------
+Chessd is tested only for a i386 Linux/glibc environment.  We're
+interested in porting it to other platforms and other UNIX-like
+systems such as Mac OS X and the BSDs (see HACKING).
+
+If you run into problems while compiling chessd on a non-Linux
+or non-x86 system, please report the errors on the mailing list or 
+bug tracker and we'll try to help.
+
+A short history of chessd
+-------------------------
+The original Internet Chess Server (ICS) was launched in 1992.  When
+it was turned into a commercial project, some of the original
+programmers lanched a free version, the Free Internet Chess Server
+(FICS).  Through the years many different groups worked on this code,
+creating numerous forks and variations.  As the ICS protocol is not
+formally specified, this fragmentation was harmful to the community
+and the projects were ultimately abandoned.
+
+As a part of the Chess in Schools project of the Brazilian government,
+the Federal University of Paraná needed a working Internet chess
+server.  Since there was no Free Software alternative, a university
+group took over one of the abandoned projects (the "lasker" lineage
+as modified by Andrew Tridgell) and improved upon it.  After fixing
+memory problems, modernizing the build system and internationalizing
+the user interface, the "João VI" chessd released was launched on
+sourceforge.  It was still not usable for the project, however, as the
+esoteric storage backend was bug-prone and the interface was too
+antiquated for use in modern schools.  Thus another group of students
+migrated the storage to a PostgreSQL backend and added a web
+interface, launching the result as "Chrysalis".
+
+João VI and later Chrysalis have been in use by governmental chess
+groups for years, but unfortunately the teams were dismissed and the
+project endured a period of stagnation.  The servers are still active,
+however, and now work in the code was reinitiated.
+
+The future of Chrysalis
+-----------------------
+As its name implies, Chrysalis is still an unfinished chessd flavour.
+The first attempt on a web inteface resulted in hard to maintain
+Portuguese-only PHP code, and it was concluded that most of the web
+interface's shortcomings came from lack of good design in the SQL
+layer.  The DB is currently being restructured, and over the new DB a
+better, international web interface will be designed in Python.
+
+The future of chessd
+--------------------
+The ICS-based chess servers have some design limitations.  The game
+protocol is not formally specified, does not adhere to a standard
+format such as XML, and mixes presentation with mechanism (making it
+impossible to fully internationalize, for example).  The server code
+reinvents the wheel for much of communication work, causing it to be
+more complicated than it should be.
+
+Discussions have begin on designing a new server from scratch, using a
+standard communication protocol such as XMPP/Jabber and modern Web
+applications.  As this is a longterm goal, the ICS-based server will
+not be abandoned, but it is now considered to be a stopgap for a
+better system.  Some of these ideas can be found on the mailing list,
+starting 22 November, 2005:
+http://sourceforge.net/mailarchive/message.php?msg_id=13941472
+
+It is hoped to have funding for more chessd work in 2007.
+
+--
+The chessd team
+Federal University of Paraná, Brazil

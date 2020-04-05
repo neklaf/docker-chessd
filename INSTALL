@@ -1,0 +1,114 @@
+Step 1: Server installation
+---------------------------
+You’ll need the following packages:
+
+    pkgconfig
+    postgres or mysql
+    libdbi 0.8.0 or later
+    libdbi-drivers for your database (pgsql or mysql)
+    libxml2-dev
+    libltdl3-dev
+    libtool
+    GNU make
+
+Be sure to install all requirements before continuing.  
+
+You can build and install chessd from the distribution tarball
+with the common configure-make procedure:
+
+Change into the directory where you unpacked the source, and execute:
+	./configure
+	make
+	make install
+
+To choose where chessd will be installed, use the standard --prefix
+flag in configure.  By default it goes to /usr/local.
+
+Please note:
+
+If you want to build code from the Subversion server (such as the latest
+development version), rather than from the distribution tarball, 
+please see the file HACKING for more information.
+
+Step 2a: PostgreSQL configuration
+---------------------------------
+You’ll need a dedicated chessd user and database in PostgreSQL.  Make
+sure the user can access the database through TCP using password
+authentication.  Some PgSQL installations "trust" local (same machine)
+connections by default. Otherwise, set something like this in pg_hba.conf:
+
+  host    <chessd_db>    <chess_user>    0.0.0.0 0.0.0.0 md5
+
+This works if chessd will run in the same host as PostgreSQL.  If
+that is not the case, try something like this:
+
+  host    <chessd_db>    <chessd_user>    chessd_server_addr  0.0.0.0 md5
+  
+This file can be found e.g. at /var/lib/postgresql/data/pg_hba.conf (Gentoo)
+
+<chessd_db> and <chessd_user> above represent your chosen database and
+user names, without the angle brackets.  They may well be both named
+simply “chessd”.  For more details on how to configure this file,
+read the PostgreSQL documentation corresponding to your version (e.g. 
+http://www.postgresql.org/docs/8.1/interactive/client-authentication.html)
+
+You’ll find a database creation script in the source directory
+sql/dbinstall.sh file.  Run this script without arguments for help, or
+just change into an user with database creation powers and call
+“dbinstall.sh create”.  If you’re of the do-it-yourself kind, you
+may prefer to edit a copy of sql/create.sql.in and apply it manually.
+
+Step 2b: MySQL configuration
+----------------------------
+The sql/dbinstall.sh script does the necessary configuration:
+	$ cd sql
+	$ ./dbinstall.sh -m create
+('-m' means configure MySQL; run without parameters to see other options.)
+
+During the 'create' process, the chessd database and user are created.
+You will need a suitably privileged MySQL user login (e.g. MySQL 'root').
+
+Step 3: Editing chessd.conf
+---------------------------
+In the install location (by default /usr/local), edit the file
+etc/chessd.conf to match your preferences.  Be sure to change the
+database information to match the configuration you set in the
+previous step.
+
+Step 4: Running
+---------------
+Once you have the chessd daemon running on your server, connect with 
+a GUI front-end, such as:
+* XBoard or WinBoard, http://www.tim-mann.org/xboard.html
+* eboard, http://eboard.sourceforge.net/
+
+Alternatively, to use the FICS command line directly, telnet to the 
+chessd port (5000 by default, see chessd.conf) and log in (admin or guest). 
+If you are new to FICS, there is online help, see 'help info_general' 
+or 'help info_playing'.
+
+On the server, chessd log information is sent to stdout, so you may want 
+to capture it.
+
+
+Reporting bugs
+--------------
+Please use the bug tracker: 
+http://sourceforge.net/tracker/?group_id=86389&atid=579210
+
+For general discussion, use the mailing list: 
+http://sourceforge.net/mailarchive/forum.php?forum_id=35241
+
+
+Web interface
+-------------
+The chessd web interface is available separately on the project's
+sourceforge page (and also the Subversion repository).
+Follow the instructions on that package's INSTALL file, and set up 
+the interface with the same parameters you set in chessd.conf.
+
+Many interesting functions are performed only by the web interface,
+but unfortunately it is Portuguese-only hard-to-modify PHP code over
+an esoteric undocumented SQL schema.  Feel free to play with it, but
+don’t expect a lot of English support.  A new and cleaner DB and web
+interface are on the works for a future version of chessd.

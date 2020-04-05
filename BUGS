@@ -1,0 +1,60 @@
+Reload broken
+-------------
+
+This version of chessd was derived in part from the "lasker" flavour.
+One of the characteristics of that flavour was the "reload" command.
+To deal with the messy state of chessd's memory management, the
+authors split most of chessd into a loadable module.  When the
+process grew too large, an admin could run "reload" and fix it.
+
+Unfortunately, reload never worked too well.  It kept connections but
+killed running games, making it not much better than simply restarting
+the server.  Further, PostgreSQL support was added without thinking
+about reload, so reload kills the database connections too.
+
+Reload is disabled.  The worst memory leaks have been fixed by now.  A
+fair amount of complexity comes from the loadable module scheme
+though, so maybe it should be restored.
+
+
+asprintf() trouble (server quits at player login)
+-------------------------------------------------
+
+To support reload, the original authors created wrappers for malloc()
+and friends in malloc.{c,h}.  There is something wrong with those
+wrappers.  A common symptom is server quitting at login time.  The
+debug may be misteryous:
+
+  (gdb) p dirname
+  $1 = 0x2aaaac238818 "/usr/local/stow/chessd//share/chessd/data/help"
+  (gdb) n
+  60              asprintf(&buf, "%s/C", dirname);
+  (gdb) n
+  62 [blah]
+  (gdb) p buf
+  $2 = 0x533080 "(null)/C"
+  (gdb) p asprintf(&buf, "%s/C", dirname)
+  $3 = 48
+  (gdb) p buf
+  $4 = 0x533130 "/usr/local/stow/chessd//share/chessd/data/help/C"
+
+The two asprintfs are not the same function.  One of them is defined
+at src/malloc.c and overrides the one from libc.
+
+What is the cause of the problem with chessd's asprintf()?  At first
+glance I thought it could be because the function reused a va_list
+passed to another function, which has undefined results.  I couldn't
+reproduce this in a test program, however, and the bug itself just
+stopped appearing on second try.  For safety, and since reload is not
+working anyway, all custom memory functions were disabled by hiding
+them behind an #ifdef USE_CHESSD_MALLOC.
+
+
+src/Makefile.am is suboptimal
+-----------------------------
+
+Instead of properly stating each dependency, src/Makefile.am has a big
+SHARED_SRC variable with almost all source files.  The result is that
+anything is said to depend on anything.  The compilation cycle could
+be improved if someone take the time to discover which source file
+depends on which.

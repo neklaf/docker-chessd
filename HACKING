@@ -1,0 +1,156 @@
+About this code
+---------------
+Chessd is the product of many dozens of people, with varying expertise and
+habits, so its style is not internally consistent, and it will never be perfect. 
+
+That said, here are some basic guidelines for new chessd developers:
+
+
+EDITING
+* Being an international project, all source is in UTF-8 encoding. You may need 
+  to configure your editor to suit[1], and be careful to avoid committing files 
+  with mangled UTF-8 characters.
+* Edit with 4-width tabs. Some people can't tolerate tabs at all. But if we're
+  going to have them, standard width is needed for useful tabbed alignment.
+  (Unfortunately it's probably still not going to look right in Sourceforge's 
+  ViewVC repo browser, which passes tabs though to HTML, typically 8-width.)
+* Line endings will be UNIX (not DOS, not Mac). Again, editor settings may help.
+
+VERSION CONTROL
+* Acquire the habit of testing your changes actually 'make' before EVERY commit. 
+  Committing code that does not build is a very quick route to unpopularity.
+* Please use informative commit messages. Subversion makes it convenient to 
+  review your changes ('svn diff'[2]). Remember that future readers are reading 
+  the text, not your mind :-)  (And you did comment your code too, right? :)
+* If your commit affects a bug tracker issue[3], note the revision number and 
+  any relevant info in the issue's log.
+
+[1] For example, in Eclipse, in Project Properties, you can set UTF-8 encoding
+    for all enclosed files, which resolved the issue for me on Linux and OS X.
+[2] In Eclipse, right-click on the file or directory and choose
+    'Compare With->Base Revision'. In TortoiseSVN, use right-click menu 'Diff'.
+[3] See http://sourceforge.net/tracker/?group_id=86389&atid=579210
+
+
+Getting started with Subversion
+-------------------------------
+1. Download client via http://subversion.tigris.org/project_packages.html
+
+OR use your system's package manager (as root):
+	apt-get install subversion  (Debian/Ubuntu/Fink)
+	emerge subversion           (Gentoo)
+	yum install subversion      (RedHat/Fedora)
+
+2. In addition to chessd's runtime requirements listed in INSTALL,
+   you’ll need the following tools installed:
+
+	autoconf >= 2.59
+	automake >= 1.9.6
+	libtool
+	gettext >= 0.14.1 [see note below if you are building on OS X]
+	pkg-config
+
+*Make sure autoconf and automake are at least on the versions
+indicated above*.  Compilation will probably *not* work with older
+versions and will fail with mysterious errors.  Make sure you’re
+calling the correct programs when you call plain “autoconf” or
+“automake” (e.g. use 'autoconf --version', 'automake --version').
+
+3. Check out the code, e.g.:
+
+	svn checkout https://svn.sourceforge.net/svnroot/chessd/server/trunk chessd
+	
+(Change the URL appropriately if you are checking out a tag or branch 
+instead of 'trunk'. Note that you can look at the repository directly in a web
+browser, to find branches and tags.)
+
+Subversion checkout from Sourceforge needs no login. For commit access,
+please contact a chessd admin.
+
+4. cd into it and run “autoreconf -ifs”.  If all went well, you should end up 
+with a working “configure” script and can proceed with the installation.
+
+Tip: chessd supports building from a directory other than the source
+dir.  For convenience, the repository ignores a file called “build”,
+so you can use it as build directory like this:
+
+	chessd-trunk$ autoreconf -ifs # create “configure”
+	chessd-trunk$ mkdir build
+	chessd-trunk$ cd build
+	chessd-trunk/build$ ../configure
+	chessd-trunk/build$ make install
+
+This helps in keeping the source directory less cluttered.
+
+
+TODO - What needs to be worked on
+---------------------------------
+For open issues in chessd, including planned features, see the bug tracker, 
+http://sourceforge.net/tracker/?group_id=86389&atid=579210
+
+
+OS X notes (NOT WORKING; mainly because packages in Fink are too old)
+----------
+The easiest way to install the prerequisites for chessd (including a database
+backend such as MySQL or PostgreSQL) is to use Fink (http://fink.sourceforge.net/).
+
+After installing Fink, you will want to follow the instructions under Q8.3 here:
+	http://fink.sourceforge.net/faq/usage-general.php
+If using bash ('echo $SHELL' to find out), add those lines to ~/.profile
+and make them effective with:
+	. ~/.profile
+(Without those changes to your $PATH, the older standard Apple autotools 
+will be referenced instead of the newer Fink packages.)
+
+To install the database server,
+	apt-get install postgresql    (or mysql)
+
+1. GNU gettext is typically not installed (in step 4 you may see an error like
+'autoreconf: failed to run autopoint'). You must either build it from source
+(see http://www.gnu.org/software/gettext/ for download links) or use Fink:
+	sudo apt-get install gettext
+	
+
+Solaris notes
+-------------
+These notes cover build preparations specific to Solaris, tested on 
+Solaris 10/x86 (64-bit). Other releases and architectures may differ 
+(please tell us if you have anything to add).
+
+It is helpful to set up your shell environment. The following assumes you are
+running 'bash' shell (not the default on Solaris):
+	$ export PATH=$PATH:/opt/mysql/mysql/bin:/usr/sfw/bin:/usr/ccs/bin:/opt/sfw/bin:/usr/local/bin
+There are many other useful bin directories in Solaris, but these are the ones 
+most useful for this build, exposing gcc (3.4.3 is bundled), gmake, wget, 
+mysql client, and other necessary tools.
+
+The MySQL bin directory given above is used if you install an official package. 
+MySQL 4.x is bundled with Solaris 10, or you can install one of the versions from
+http://dev.mysql.com/downloads/mysql/5.0.html#Solaris_(pkgadd_package)
+Unless you plan a fully 64-bit build of libdbi, libdbi-drivers and chessd,
+choose a 32-bit build of MySQL.
+
+Alternatively, Sun also distributes PostgreSQL packages:
+http://www.sun.com/software/solaris/postgresql.jsp
+
+You should install from source (in this order):
+	autoconf 2.60 or later
+	automake 1.9.6 or later
+(Get source from a mirror at http://www.gnu.org/prep/ftp.html)
+
+The following can be installed from packages at http://sunfreeware.com/
+	gettext
+	cvs    (oddly, wanted by 'autoreconf' step)
+	libtool
+
+'./configure' will fail unless the new installation of aclocal knows about
+the pkg-config macros (bundled with Solaris, in pkg SUNWgnome-common-devel-share):
+	# ln -s /usr/share/aclocal/pkg.m4 /usr/local/share/aclocal
+(This must be done before the 'autoreconf' step.)
+
+How to install a Sun Freeware package (browse their site for
+the right URL for your Solaris release and architecture):
+	$ wget ftp://ftp.sunfreeware.com/pub/freeware/intel/10/gettext-0.14.1-sol10-intel-local.gz
+	$ gunzip gettext-0.14.1-sol10-intel-local.gz
+	$ su    (or install and use 'sudo')
+	# pkgadd -d gettext-0.14.1-sol10-intel-local
